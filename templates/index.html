@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Regestration Page</title>
+  <style>
+    .bgcontainer {
+
+      background-image: radial-gradient(#eeaeca, #94bbe9);
+      height: 100vh;
+      background-size: cover;
+      padding: 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .logincard {
+      background-color: #DCF2F1;
+      padding: 40px;
+      border-radius: 10px;
+
+    }
+
+    .input {
+      margin-bottom: 20px;
+      margin-top: 20px;
+    }
+
+    .labelsty {
+      font-weight: 600;
+      color: #2D3250;
+      font-family: sans-serif;
+
+
+    }
+
+    .warningpara {
+      color: red;
+    }
+
+    .heading {
+      color: 0F1035;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+
+    .greetingpara {
+      color: black;
+    }
+
+    .namepassinput {
+      width: 100%;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      outline: none;
+      margin-top: 10px;
+      background-color: #DCF2F1;
+    }
+
+    .loginbuttonsty {
+      margin-top: 20px;
+      width: 100%;
+      padding: 10px;
+      font-weight: 700;
+      font-size: 16px;
+      color: #fff;
+      background-color: #365486;
+      border-radius: 5px;
+      border-style: none;
+      outline: none;
+      cursor: pointer;
+    }
+  </style>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"> </script>
+
+</head>
+
+<body>
+  <div id="root"></div>
+  <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    const MainContent = () => {
+
+      const [username, getusername] = React.useState("")
+      const [password, getpassword] = React.useState("")
+      const [retypepassword, getretypepassword] = React.useState("")
+      const [emptyobject, addelement] = React.useState("")
+      const [greetins, addgreetings] = React.useState("")
+      const [warning, addwarning] = React.useState("")
+      const [passwordwarning, addpasswordwarning] = React.useState("")
+      const [retypepasswordwarning, addretypepasswordwarning] = React.useState("")
+
+      const usernamevalue = (event) => {
+        getusername(event.target.value)
+
+      }
+      const passwordvalue = (event) => {
+        getpassword(event.target.value)
+
+      }
+      const retypepasswordvalue = (event) => {
+        getretypepassword(event.target.value)
+
+      }
+      const regesterme = (event) => {
+        event.preventDefault()
+        const newregister = {
+
+          name: username,
+          password: password,
+          retypepassword: retypepassword
+        }
+
+        if (username === "" && password === "" && retypepassword === "") {
+          addgreetings("Please Enter Your Credentails")
+        }
+        else if (password !== retypepassword) {
+          addgreetings("Password Does Not Matches")
+        }
+
+        else if (password === retypepassword) {
+          addelement(newregister)
+          addgreetings("You Regestered Successfully Thankyou")
+        }
+
+      }
+      const warningmessageusername = (event) => {
+        if (event.target.value === "") {
+          addwarning("Requried***")
+        }
+        else {
+          addwarning("")
+        }
+
+      }
+
+      const warningmessagepassword = (event) => {
+        if (event.target.value === "") {
+          addpasswordwarning("Requried***")
+        }
+        else {
+          addpasswordwarning("")
+        }
+      }
+
+      const warningmessageretypepassword = (event) => {
+        if (event.target.value === "") {
+          addretypepasswordwarning("Requried***")
+        }
+        else {
+          addretypepasswordwarning("")
+        }
+      }
+
+      return (
+        <div className="bgcontainer">
+          <form className="logincard" action="" method="post">
+            <h1 className="heading">User Registration</h1>
+            <div className="input">
+              <label className="labelsty">UserName</label>
+              <br />
+              <input type="text" id="personname" name="personname" onChange={usernamevalue} onBlur={warningmessageusername} className="namepassinput" placeholder="Enter your Name" />
+              <p className="warningpara" >{warning}</p>
+
+
+            </div>
+
+            <div className="input">
+              <label className="labelsty">Password</label>
+              <br />
+              <input type="text" id="personpassword" name="personpassword" className="namepassinput" onBlur={warningmessagepassword} placeholder="Enter your Password" onChange={passwordvalue} />
+              <p className="warningpara" >{passwordwarning}</p>
+            </div>
+
+            <div className="input">
+              <label className="labelsty">Retype Password</label>
+              <br />
+              <input type="text" id="personretypepassword" name="personretypepassword" className="namepassinput" onBlur={warningmessageretypepassword} placeholder="Re-Enter your Password" onChange={retypepasswordvalue} />
+              <p className="warningpara">{retypepasswordwarning}</p>
+            </div>
+
+
+
+            <p className="greetingpara">{greetins}</p>
+          </form>
+          <button className="loginbuttonsty">Register</button>
+        </div>
+      );
+    }
+
+    //render the component to the DOM
+    ReactDOM.render(<MainContent />, document.getElementById('root'));
+  </script>
+</body>
+
+
+<script>
+  $(document).ready(function () {
+    $("button.loginbuttonsty").click(function () {
+      $.ajax({
+        url: 'http://127.0.0.1:5000/submit',
+        method: 'POST',
+        data: {
+          "personname": $("#personname").val(),
+          "personpassword": $("#personpassword").val(),
+          "personretypepassword": $("#personretypepassword").val()
+        }
+      })
+        .done(function (response) {
+          console.log(response);
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+          alert("jqXHR: " + JSON.stringify(jqXHR));
+        });
+    });
+  });
+
+</script>
+
+</html>
