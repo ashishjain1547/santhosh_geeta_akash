@@ -1,5 +1,7 @@
 from flask import Flask, redirect, render_template,request,url_for
 
+from flask_bcrypt import Bcrypt
+
 import json, requests
 
 from flask_cors import CORS, cross_origin
@@ -9,6 +11,7 @@ from flask import Response, jsonify
 import sqlite3
 
 app=Flask(__name__)
+bcrypt=Bcrypt(app)
 
 @app.route('/')
 def welcome():
@@ -21,9 +24,10 @@ def submit():
     username = ""
     password = ""
     retypepassword = ""
+    
     if request.method=="POST":
         username=request.form["personname"]
-        password=request.form["personpassword"]
+        password=bcrypt.generate_password_hash(request.form["personpassword"]).decode('utf-8')
         retypepassword=request.form["personretypepassword"]
         print(username,password,retypepassword)
     # return render_template("result.html", username=username, password=password, retypepassword=retypepassword)
