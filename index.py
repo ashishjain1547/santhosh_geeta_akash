@@ -43,7 +43,11 @@ def submit():
     cursor.execute(table) 
     
     # Queries to INSERT records. 
-    cursor.execute("INSERT INTO USER_INFO VALUES ('" + username + "', '" + password + "')") 
+    #query="INSERT INTO USER_INFO VALUES ('username",'password');"
+    #cursor.execute(query)
+    query = "INSERT INTO USER_INFO VALUES (?, ?);"
+    cursor.execute(query, (username, password))
+    #cursor.execute("INSERT INTO USER_INFO VALUES ('" + username + "', '" + password + "')") 
         
     conn.close()
 
