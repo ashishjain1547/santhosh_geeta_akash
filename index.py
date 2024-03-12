@@ -17,7 +17,7 @@ def welcome():
 
 @app.route("/submit", methods=["POST"])
 def submit():
-    print(request.data)
+    #print(request.form)
     username = ""
     password = ""
     retypepassword = ""
@@ -37,6 +37,7 @@ def submit():
     cursor = conn.cursor() 
 
     print('Opened database successfully')
+    #print(request.form)
 
     # Creating table 
     table ="""CREATE TABLE IF NOT EXISTS USER_INFO (username VARCHAR(255), password VARCHAR(255))"""
@@ -45,14 +46,14 @@ def submit():
     # Queries to INSERT records. 
     #query="INSERT INTO USER_INFO VALUES ('username",'password');"
     #cursor.execute(query)
-    query = "INSERT INTO USER_INFO VALUES (?, ?);"
-    cursor.execute(query, (username, password))
+    #query = "INSERT INTO USER_INFO VALUES (?, ?);"
+    cursor.execute("INSERT INTO USER_INFO (username,password) VALUES (?, ?)", (username, password))
     #cursor.execute("INSERT INTO USER_INFO VALUES ('" + username + "', '" + password + "')") 
-        
+    conn.commit()
     conn.close()
 
 
-    return "Hi, " +  username
+    return "data inserted sucessfully"+username
     # Redirect to the homepage if accessed via GET method
     
 if __name__=='__main__':
