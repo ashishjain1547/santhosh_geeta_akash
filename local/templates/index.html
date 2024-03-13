@@ -205,7 +205,9 @@
   $(document).ready(function () {
     $("button.loginbuttonsty").click(function () {
       $.ajax({
-        url: 'http://127.0.0.1:5000/submit',
+        // url: 'http://127.0.0.1:5000/submit',
+
+        url: 'https://ashishjain.pythonanywhere.com/submit',
         method: 'POST',
         data: {
           "personname": $("#personname").val(),
@@ -214,7 +216,7 @@
         }
       })
         .done(function (response) {
-          console.log(response);
+          alert(response);
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
           alert("jqXHR: " + JSON.stringify(jqXHR));

@@ -57,7 +57,7 @@ def submit():
     conn.close()
 
 
-    return "data inserted sucessfully"+username
+    return "Data inserted sucessfully for: " + username
     # Redirect to the homepage if accessed via GET method
     
 if __name__=='__main__':
